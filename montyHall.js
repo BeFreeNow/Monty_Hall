@@ -1,6 +1,10 @@
 const MIN_CHOICE = 1
 const MAX_CHOICE = 3
 
+function generateRandom(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
 class Game {
     constructor(minChoice = 1, maxChoice = 3) {
         this.winningNumber = generateRandom(minChoice, maxChoice)
@@ -49,10 +53,6 @@ function playAndCountVictories(gamesAmount) {
         if (isVictory) victoriesCount++
     }
     return victoriesCount
-}
-
-function generateRandom(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
 const victoriesCount = playAndCountVictories(1000)
