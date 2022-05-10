@@ -14,7 +14,7 @@ class Game {
         const winningNumber = this.winningNumber
         const isGuessCorrect = this.winningNumber === playerGuess
         const secondChoice = isGuessCorrect ? this.generateSecondChoice(winningNumber) : winningNumber
-        // Line 24 above, makes is obvious that
+        // Line 16 above, makes is obvious that
         // if the guess is incorrect (which happens in most cases) -
         // then the second choice is the winning number😂
         const choices = [secondChoice, winningNumber]
