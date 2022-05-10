@@ -1,31 +1,25 @@
-const MIN_CHOISE = 1
-const MAX_CHOISE = 3
-
-function generateRandom(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min
-}
+const MIN_CHOICE = 1
+const MAX_CHOICE = 3
 
 class Game {
     constructor(minChoice = 1, maxChoice = 3) {
         this.winningNumber = generateRandom(minChoice, maxChoice)
     }
 
-    getTwoChoices(playerGuess) {
+    getSecondChoice(playerGuess) {
         const winningNumber = this.winningNumber
         const isGuessCorrect = this.winningNumber === playerGuess
         const secondChoice = isGuessCorrect ? this.generateSecondChoice(winningNumber) : winningNumber
         // Line 16 above, makes is obvious that
         // if the guess is incorrect (which happens in most cases) -
         // then the second choice is the winning number😂
-        const choices = [secondChoice, winningNumber]
-        const shuffledChoices = this.shuffle(choices)
-        return shuffledChoices
+        return secondChoice
     }
 
     generateSecondChoice(NumberToSkip) {
         let secondChoise
-        const max = MAX_CHOISE - 1
-        const random = generateRandom(MIN_CHOISE, max)
+        const max = MAX_CHOICE - 1
+        const random = generateRandom(MIN_CHOICE, max)
 
         if (random === NumberToSkip) secondChoise = random + 1
         else secondChoise = random
@@ -33,27 +27,17 @@ class Game {
         return secondChoise
     }
 
-    shuffle(choices) {
-        return choices.sort(() => Math.random() - 0.5)
-    }
-
-    getResult(guess) {
-        return { winningNumber: this.winningNumber, guess, isVictory: guess === this.winningNumber }
+    checkIsCorrectChoice(guess) {
+        return  guess === this.winningNumber 
     }
 }
 
 class Player {
     play() {
-        const game = new Game(MIN_CHOISE, MAX_CHOISE)
-        const playerGuess = generateRandom(MIN_CHOISE, MAX_CHOISE)
-        const choices = game.getTwoChoices(playerGuess)
-        const playerChoise = this.makeChoice(choices, playerGuess)
-        const gameResult = game.getResult(playerChoise)
-        return gameResult
-    }
-
-    makeChoice(choices, playerGuess) {
-        return choices.find(choice => choice !== playerGuess)
+        const game = new Game(MIN_CHOICE, MAX_CHOICE)
+        const playerGuess = generateRandom(MIN_CHOICE, MAX_CHOICE)
+        const secondChoice = game.getSecondChoice(playerGuess)
+        return game.checkIsCorrectChoice(secondChoice)
     }
 }
 
@@ -61,10 +45,14 @@ function playAndCountVictories(gamesAmount) {
     const player = new Player()
     let victoriesCount = 0
     for (let i = 0; i < gamesAmount; i++) {
-        const gameResult = player.play()
-        if (gameResult.isVictory) victoriesCount++
+        const isVictory = player.play()
+        if (isVictory) victoriesCount++
     }
     return victoriesCount
+}
+
+function generateRandom(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
 const victoriesCount = playAndCountVictories(1000)
